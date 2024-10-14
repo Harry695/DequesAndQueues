@@ -25,9 +25,8 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     // is the deque empty?
-    // TODO: possible dysfunction. Try n == 0
     public boolean isEmpty() {
-        return first == null;
+        return n == 0;
     }
 
     // return the number of items on the deque
@@ -40,7 +39,7 @@ public class Deque<Item> implements Iterable<Item> {
         Node<Item> oldFirst = first;
         first = new Node<Item>();
         first.item = item;
-        first.previous = null;
+        first.next = oldFirst;
         if (isEmpty()) {
             last = first;
         } else {
@@ -54,7 +53,7 @@ public class Deque<Item> implements Iterable<Item> {
         Node<Item> oldlast = last;
         last = new Node<Item>();
         last.item = item;
-        last.next = null;
+        last.previous = oldlast;
         if (isEmpty()) {
             first = last;
         } else {
@@ -70,6 +69,7 @@ public class Deque<Item> implements Iterable<Item> {
         }
         Item item = first.item;
         first = first.next;
+        first.previous = null;
         n--;
         if (isEmpty()) {
             last = null;   // to avoid loitering
@@ -84,6 +84,7 @@ public class Deque<Item> implements Iterable<Item> {
         }
         Item item = last.item;
         last = last.previous;
+        last.next = null;
         n--;
         if (isEmpty()) {
             first = null;   // to avoid loitering
@@ -116,6 +117,19 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     // unit testing (required)
-    public static void main(String[] args) {}
-
+    public static void main(String[] args) {
+        Deque<String> myDeque = new Deque<>();
+        myDeque.addFirst("second");
+        myDeque.addLast("third");
+        myDeque.addFirst("first");
+        System.out.println("removing, currently of size " + myDeque.size());
+        System.out.println(myDeque.removeLast());
+        System.out.println(myDeque.removeFirst());
+        System.out.println("printing");
+        for (String string : myDeque) {
+            System.out.println(string);
+        }
+        myDeque.removeLast();
+        // System.out.println("is empty?" + myDeque.isEmpty());
+    }
 }
