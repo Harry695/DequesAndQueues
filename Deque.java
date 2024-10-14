@@ -68,12 +68,14 @@ public class Deque<Item> implements Iterable<Item> {
             throw new NoSuchElementException("Underflow");
         }
         Item item = first.item;
-        first = first.next;
-        first.previous = null;
-        n--;
-        if (isEmpty()) {
-            last = null;   // to avoid loitering
+        if (n == 1) {
+            first = null;
+            last = null;
+        } else {
+            first = first.next;
+            first.previous = null;
         }
+        n--;
         return item;
     }
 
@@ -83,12 +85,14 @@ public class Deque<Item> implements Iterable<Item> {
             throw new NoSuchElementException("Underflow");
         }
         Item item = last.item;
-        last = last.previous;
-        last.next = null;
-        n--;
-        if (isEmpty()) {
-            first = null;   // to avoid loitering
+        if (n == 1) {
+            last = null;
+            first = null;
+        } else {
+            last = last.previous;
+            last.next = null;
         }
+        n--;
         return item;
     }
 
@@ -129,7 +133,7 @@ public class Deque<Item> implements Iterable<Item> {
         for (String string : myDeque) {
             System.out.println(string);
         }
-        myDeque.removeLast();
-        // System.out.println("is empty?" + myDeque.isEmpty());
+        myDeque.removeFirst();
+        System.out.println("is empty? " + myDeque.isEmpty());
     }
 }
