@@ -1,3 +1,11 @@
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+/**
+ * Created on Mon Oct 14 2024
+ * @author Harry Ouyang attests that this code is their original work and was written in compliance with the class Academic Integrity and Collaboration Policy found in the syllabus.
+ */
+
 public class Deque<Item> implements Iterable<Item> {
     private Node<Item> first;
     private Node<Item> last;
@@ -17,6 +25,7 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     // is the deque empty?
+    // TODO: possible dysfunction. Try n == 0
     public boolean isEmpty() {
         return first == null;
     }
@@ -55,13 +64,56 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     // remove and return the item from the front
-    public Item removeFirst() {}
+    public Item removeFirst() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Underflow");
+        }
+        Item item = first.item;
+        first = first.next;
+        n--;
+        if (isEmpty()) {
+            last = null;   // to avoid loitering
+        }
+        return item;
+    }
 
     // remove and return the item from the back
-    public Item removeLast() {}
+    public Item removeLast() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Underflow");
+        }
+        Item item = last.item;
+        last = last.previous;
+        n--;
+        if (isEmpty()) {
+            first = null;   // to avoid loitering
+        }
+        return item;
+    }
 
     // return an iterator over items in order from front to back
-    public Iterator<Item> iterator() {}
+    public Iterator<Item> iterator() {
+        return new LinkedIterator(first);
+    }
+
+    private class LinkedIterator implements Iterator<Item> {
+        private Node<Item> current;
+
+        public LinkedIterator(Node<Item> first) {
+            current = first;
+        }
+
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        public Item next() {
+            if (!hasNext()) throw new NoSuchElementException();
+            Item item = current.item;
+            current = current.next;
+            return item;
+        }
+    }
 
     // unit testing (required)
     public static void main(String[] args) {}
