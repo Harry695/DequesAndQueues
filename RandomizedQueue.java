@@ -4,17 +4,13 @@ import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] queue;       
-    private int n;          
-    private int first;     
-    private int last;       
+    private int n;               
 
     // construct an empty randomized queue
     @SuppressWarnings("unchecked")
     public RandomizedQueue() {
         queue = (Item[]) new Object[8]; // 8 as initial capacity
         n = 0;
-        first = 0;
-        last = 0;
     }
 
     // is the randomized queue empty?
@@ -32,26 +28,22 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         assert capacity >= n;
         Item[] copy = (Item[]) new Object[capacity];
         for (int i = 0; i < n; i++) {
-            copy[i] = queue[(first + i) % queue.length];
+            copy[i] = queue[i];
         }
         queue = copy;
-        first = 0;
-        last  = n;
     }
     
     // add the item
     public void enqueue(Item item) {
         if (n == queue.length) resize(2 * queue.length);  
-        queue[last++] = item;                        // add item
-        if (last == queue.length) last = 0;          // questionnable wrap-around
-        n++;
+        queue[n++] = item;                      
     }
 
     // remove and return a random item
     public Item dequeue() {
-        exch(StdRandom.uniformInt(n+1), last);
-        Item item = queue[last];
-        queue[last] = null;
+        exch(StdRandom.uniformInt(n), n-1);
+        Item item = queue[n-1];
+        queue[n--] = null;
         return item;
     }
 
@@ -64,7 +56,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // return a random item (but do not remove it)
     public Item sample() {
-        return queue[StdRandom.uniformInt(first, last + 1)];
+        return queue[StdRandom.uniformInt(n)];
     }
 
     // return an independent iterator over items in random order
@@ -82,7 +74,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         public Item next() {
             // System.out.println("\nlast: " + last);
             if (!hasNext()) throw new NoSuchElementException();
-            exch(StdRandom.uniformInt(i, last), i);
+            exch(StdRandom.uniformInt(i, n), i);
             return queue[i++];
         }
     }
@@ -101,6 +93,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         System.out.println(myQueue.dequeue());
         System.err.println(myQueue.sample());
         System.out.println(myQueue.dequeue());
+        System.out.println("printing");
         for (String integer : myQueue) {
             System.out.println(integer);
         }
