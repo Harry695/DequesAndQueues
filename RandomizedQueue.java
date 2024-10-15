@@ -56,6 +56,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private void exch(int i1, int i2) {
+        // System.out.println("exchanging " + i1 + " with " + i2);
         Item temp = queue[i1];
         queue[i1] = queue[i2];
         queue[i2] = temp;
@@ -79,29 +80,30 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         public Item next() {
+            // System.out.println("\nlast: " + last);
             if (!hasNext()) throw new NoSuchElementException();
-            exch(StdRandom.uniformInt(i, last+1), i);
+            exch(StdRandom.uniformInt(i, last), i);
             return queue[i++];
         }
     }
 
     // unit testing (required)
     public static void main(String[] args) {
-        RandomizedQueue<Integer> myQueue = new RandomizedQueue<>();
-        myQueue.enqueue(1);
-        myQueue.enqueue(2);
-        myQueue.enqueue(3);
-        myQueue.enqueue(4);
-        myQueue.enqueue(5);
-        for (Integer integer : myQueue) {
-            System.out.println(integer);
-        }
-        // System.out.println(myQueue.dequeue());
-        // System.err.println(myQueue.sample());
-        // System.out.println(myQueue.dequeue());
-        // for (Integer integer : myQueue) {
+        RandomizedQueue<String> myQueue = new RandomizedQueue<>();
+        myQueue.enqueue("a");
+        myQueue.enqueue("b");
+        myQueue.enqueue("c");
+        myQueue.enqueue("d");
+        myQueue.enqueue("e");
+        // for (String integer : myQueue) {
         //     System.out.println(integer);
         // }
+        System.out.println(myQueue.dequeue());
+        System.err.println(myQueue.sample());
+        System.out.println(myQueue.dequeue());
+        for (String integer : myQueue) {
+            System.out.println(integer);
+        }
         // System.out.println(myQueue.dequeue());
         // System.out.println(myQueue.dequeue());
         // System.out.println(myQueue.dequeue());
