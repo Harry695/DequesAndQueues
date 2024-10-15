@@ -7,7 +7,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private int n;               
 
     // construct an empty randomized queue
-    @SuppressWarnings("unchecked")
     public RandomizedQueue() {
         queue = (Item[]) new Object[8]; // 8 as initial capacity
         n = 0;
@@ -23,7 +22,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return n;
     }
 
-    @SuppressWarnings("unchecked")
     private void resize(int capacity) {
         assert capacity >= n;
         Item[] copy = (Item[]) new Object[capacity];
