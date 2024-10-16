@@ -52,7 +52,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
         exch(StdRandom.uniformInt(n), n-1);
         Item item = queue[n-1];
-        queue[n--] = null;
+        queue[--n] = null;
         return item;
     }
 
