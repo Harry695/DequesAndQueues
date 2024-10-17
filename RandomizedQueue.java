@@ -78,6 +78,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private class ArrayIterator implements Iterator<Item> {
         private int i = 0;
+        private int[] order;
+
+        public ArrayIterator() {
+            order = StdRandom.permutation(n);
+        }
 
         public boolean hasNext() {
             return i < n;
@@ -86,8 +91,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         public Item next() {
             // System.out.println("\nlast: " + last);
             if (!hasNext()) throw new NoSuchElementException();
-            exch(StdRandom.uniformInt(i, n), i);
-            return queue[i++];
+            return queue[order[i++]];
         }
     }
 
